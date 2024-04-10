@@ -20,7 +20,7 @@
 		<!-- / -->
 		<div class="flex justify-center space-x-2">
 			<a
-				class="btn variant-filled"
+				class="btn bg-colors"
 				href="https://skeleton.dev/"
 				target="_blank"
 				rel="noreferrer"

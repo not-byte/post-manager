@@ -2,6 +2,7 @@ import { join } from 'path'
 import type { Config } from 'tailwindcss'
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
+import plugin from "tailwindcss/plugin";
 import { skeleton } from '@skeletonlabs/tw-plugin';
 import { notbyteTheme } from './src/notbyte-theme'
 
@@ -15,10 +16,6 @@ export default {
 				"linear-gradient(30deg, rgba(240,132,97,1.00) 0%, rgba(129,81,156,1.00) 40%, rgba(234,86,87,1.00) 69%, rgba(240,132,97,1.00) 100%)",
 			  darkModeColors:
 				"linear-gradient(30deg, rgba(90,42,37,1.00) 0%, rgba(59,29,69,1.00) 40%, rgba(100,36,37,1.00) 69%, rgba(90,42,37,1.00) 100%)",
-			},
-			borderColor: {
-			  colors:
-				"linear-gradient(90deg, rgba(240,132,97,1.00) 0%, rgba(129,81,156,1.00) 40%, rgba(234,86,87,1.00) 69%, rgba(240,132,97,1.00) 100%)",
 			},
 			screens: {
 			  usm: "420px",
@@ -65,6 +62,64 @@ export default {
 					notbyteTheme,
 				],
 			},
+		}),
+		plugin(function ({ addUtilities }: { addUtilities: any }) {
+			const newUtilities = {
+			  ".text-shadow": {
+				textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+			  },
+			  ".text-shadow-md": {
+				textShadow: "0 4px 6px rgba(0,0,0,0.1)",
+			  },
+			  ".text-shadow-lg": {
+				textShadow: "0 10px 15px rgba(0,0,0,0.1)",
+			  },
+			  ".text-shadow-xl": {
+				textShadow: "0 20px 25px rgba(0,0,0,0.1)",
+			  },
+			  ".text-shadow-2xl": {
+				textShadow: "0 25px 50px rgba(0,0,0,0.25)",
+			  },
+			  ".text-shadow-none": {
+				textShadow: "none",
+			  },
+			  ".text-gradient-colors": {
+				backgroundImage:
+				  "linear-gradient(30deg, rgba(240,132,97,1.00) 0%, rgba(129,81,156,1.00) 40%, rgba(234,86,87,1.00) 69%, rgba(240,132,97,1.00) 100%)",
+				color: "transparent",
+				backgroundClip: "text",
+			  },
+			};
+	  
+			addUtilities(newUtilities, ["responsive", "hover"]);
+		}),
+		plugin(function ({ addComponents }: { addComponents: any }) {
+			addComponents({
+			  ".chipped-corner": {
+				position: "relative",
+				overflow: "hidden",
+				boxSizing: "border-box",
+				"&::after": {
+				  content: "''",
+				  width: "4rem",
+				  height: "4rem",
+				  position: "absolute",
+				  left: "-2rem",
+				  bottom: "-2rem",
+				  transform: "rotate(45deg)",
+				},
+			  },
+			  ".chipped-corner-night": {
+				"&::after": {
+				  backgroundColor: "rgba(15,16,19,1.00)",
+				},
+			  },
+			  ".chipped-corner-white": {
+				"&::after": {
+				  backgroundColor: "white",
+				},
+			  },
+			});
 		}),
 	],
 } satisfies Config;
