@@ -9,6 +9,10 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
+<svelte:head>
+	<title>Post Manager</title>
+</svelte:head>
+
 <AppShell>
 	<svelte:fragment slot="sidebarLeft">
 		<NavBar />
