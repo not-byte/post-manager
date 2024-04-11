@@ -2,11 +2,11 @@
 	import '../app.postcss';
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import NavBar from '$lib/components/NavBar.svelte';
+	import NavBarResponsive from '$lib/components/NavBarResponsive.svelte';
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
-  import NavBarResponsive from '$lib/components/NavBarResponsive.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	const navData: Array<{ route: string, text: string }> = [
@@ -34,9 +34,3 @@
 		<NavBarResponsive {navData} />
 	</svelte:fragment>
 </AppShell>
-
-<style lang="postcss">
-	:global(main) {
-		@apply p-8;
-	}
-</style>
