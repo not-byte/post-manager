@@ -2,20 +2,10 @@
     import { AppRail, LightSwitch } from "@skeletonlabs/skeleton";
     import Logo from "./Logo.svelte";
     import { page } from "$app/stores";
-
-    const listData = [
-        {
-            text: "Napisz post",
-            route: "/create"
-        },
-        {
-            text: "Konfiguracja",
-            route: "/config"
-        }
-    ]
+    export let navData: Array<{ route: string, text: string }>;
 </script>
 
-<AppRail background="bg-grey-lightest dark:bg-black px-4 py-8 corner" width="w-60">
+<AppRail background="bg-grey-lightest dark:bg-black px-4 py-8 h-full hidden lg:grid" width="w-60">
     <svelte:fragment slot="lead">
         <div class="flex items-center h-4 p-4 w-full">
             <a href="https://www.notbyte.com" class="grid grid-cols-[1fr_auto] gap-2 hover:invert-[25%] transition-all">
@@ -25,7 +15,7 @@
         </div>
     </svelte:fragment>
     <ul class="grid grid-rows-2 gap-2 p-4">
-        {#each listData as el}
+        {#each navData as el}
             <a href={el.route} class="hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)] transition-[background-color_background-image] p-2 px-4 {($page.route.id == el.route) ? 'bg-colors text-white corner-br-md corner-grey-lightest dark:corner-black' : ''}">
                 <li>{ el.text }</li>     
             </a>
