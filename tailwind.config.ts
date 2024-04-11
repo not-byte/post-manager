@@ -56,13 +56,6 @@ export default {
 	plugins: [
 		forms,
 		typography,
-		skeleton({
-			themes: {
-				custom: [
-					notbyteTheme,
-				],
-			},
-		}),
 		plugin(function ({ addUtilities }: { addUtilities: any }) {
 			const newUtilities = {
 			  ".text-shadow": {
@@ -93,33 +86,126 @@ export default {
 	  
 			addUtilities(newUtilities, ["responsive", "hover"]);
 		}),
-		plugin(function ({ addComponents }: { addComponents: any }) {
+		plugin(function ({ addComponents, theme }) {
+			// Creating class names for every position+size variant
+			let classList: string[] = []
+			const sizeChart = {
+				default: 2,
+				sm: 1,
+				lg: 4,
+				xl: 8,
+				xs: .5,
+				md: 1.5
+			}
+			const sizeList = Object.keys(sizeChart).slice(1)
+			const positionList = ["br", "bl", "tr", "tl"]
+
+			positionList.forEach(position => {
+				let prefix = ".corner-"
+				classList.push(prefix+position)
+				sizeList.forEach(size => {
+					classList.push(`${prefix}${position}-${size}`)
+				})
+			})
+
+			const baseAfter = {
+				content: "''",
+				position: "absolute",
+				transform: "rotate(45deg)"
+			}
+
+			function getStyle(after) {
+				return {
+					position: "relative",
+					overflow: "hidden",
+					boxSizing: "border-box",
+					"&::after": after
+				}
+			}
+
+			// Processing styling based on class params
+			function processArgs(position, sizing?) {
+				let sides = [ position[0] == 'b' ? "bottom" : "top", position[1] == 'r' ? "right" : "left" ]
+				let settings = {
+					width: "",
+					aspectRatio: "1/1",
+				}
+				
+				if(!sizing)
+					settings["width"] = `${sizeChart.default}rem`
+				else 
+					settings["width"] = `${sizeChart[sizing]}rem`
+
+				sides.forEach(el => {
+					if(!sizing)
+						settings[el] = `-${sizeChart.default/2}rem`
+					else 
+						settings[el] = `-${sizeChart[sizing]/2}rem`
+				})
+
+				return settings
+			}
+
+			// Getting arguments from class params
+			function getArgs(className) {
+				let args: Array<string | null> = className.substring(8).split("-")
+				if(args.length == 1)
+					args.push(null)
+
+				return args
+			}
+
+			// Creating an object containing every combination of class name and styling
+			let processedClassList = {}
+			classList.forEach(className => {
+				let args = getArgs(className)
+				let customAfter = processArgs(args[0], args[1])
+				processedClassList[className] = getStyle({
+					...baseAfter,
+					...customAfter
+				})
+			})
+
+			function getBgColor(value) {
+				return {
+					"&::after": {
+						backgroundColor: value
+					}
+				}
+			}
+
+			// Creating class names and their values for every established color variant
+			let processedColorsList = {}
+			const themeColors = theme('colors')
+			if(themeColors) {
+				Object.entries(themeColors).forEach(entry => {
+					let prefix = ".corner-"
+					const key = entry[0]
+					const value = entry[1]
+					if(typeof themeColors[key] === 'object') {
+						Object.entries(value).forEach(entry2 => {
+							processedColorsList[`${prefix}${key}-${entry2[0]}`] = getBgColor(entry2[1])
+						})
+					} 
+					else
+						processedColorsList[prefix+key] = getBgColor(value)
+
+					processedColorsList
+				})
+			}
+
 			addComponents({
-			  ".chipped-corner": {
-				position: "relative",
-				overflow: "hidden",
-				boxSizing: "border-box",
-				"&::after": {
-				  content: "''",
-				  width: "4rem",
-				  height: "4rem",
-				  position: "absolute",
-				  left: "-2rem",
-				  bottom: "-2rem",
-				  transform: "rotate(45deg)",
-				},
-			  },
-			  ".chipped-corner-night": {
-				"&::after": {
-				  backgroundColor: "rgba(15,16,19,1.00)",
-				},
-			  },
-			  ".chipped-corner-white": {
-				"&::after": {
-				  backgroundColor: "white",
-				},
-			  },
+				// Deconstructing class combinations inside this object
+				...processedClassList,
+				...processedColorsList,
 			});
+		}),
+		skeleton({
+			themes: {
+				custom: [
+					notbyteTheme,
+				],
+			},
 		}),
 	],
 } satisfies Config;
