@@ -4,7 +4,7 @@
     import { platformList } from "./stores";
 </script>
 
-<div class="p-8 px-16 overflow-x-auto">
+<div class="p-6 lg:p-8 lg:px-16 overflow-x-auto">
     <Editor />
 </div>
 <div class="border-l border-black dark:border-grey-darkest p-8 hidden lg:block">

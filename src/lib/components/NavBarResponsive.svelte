@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let navData: Array<{ route: string, text: string }>;
+    export let navData: Array<{ route: string, text: string, icon: any, iconActive: any }>;
     import { page } from "$app/stores";
     import Logo from "./Logo.svelte";
 </script>
@@ -7,12 +7,13 @@
 <ul class="bg-grey-lightest dark:bg-black w-full h-full lg:hidden grid grid-cols-3 grid-rows-1">
     {#each navData as el, i}
         <a href={el.route} class="transition-[background-color_background-image] text-xs text-center p-3 border-t border-grey-lightest dark:border-black {($page.route.id == el.route) ? '!border-primary-500' : ''}">
+            <svelte:component this={($page.route.id == el.route) ? el.iconActive : el.icon} class="size-6 mx-auto mb-1"></svelte:component>
             <li>{ el.text }</li>     
         </a>
         {#if i == 0}
             <a href="https://www.notbyte.com" class="flex justify-center items-center hover:invert-[25%] transition-all">
                 <li>
-                    <Logo className="h-6" />
+                    <Logo className="h-8" />
                 </li>
             </a>
         {/if}

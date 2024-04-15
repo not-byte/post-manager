@@ -3,10 +3,15 @@
     import { popup } from '@skeletonlabs/skeleton';
     import type { PopupSettings } from "@skeletonlabs/skeleton"
     import EmojiKeyboard from "$lib/components/EmojiKeyboard.svelte";
+    import EmojiIcon from "~icons/ph/smiley-wink"
+    import EmojiIconFilled from "~icons/ph/smiley-wink-fill"
+    import ImageIcon from "~icons/ph/image"
+    import ImageIconFilled from "~icons/ph/image-fill"
 
     let processedPost = ""
     let isTextareaFocused = false
     let isButtonFocused = false
+    let isEmojiKeyboardOpen = false
     let postBodyInput: HTMLTextAreaElement
     let preview: HTMLElement;
     $: if(preview) {
@@ -17,6 +22,9 @@
         event: 'click',
         target: 'emojiKeyboardPopup',
         placement: 'bottom',
+        state: (e: Record<string, boolean>) => {
+            isEmojiKeyboardOpen = e.state
+        },
         middleware: {
             offset: -10
         }
@@ -67,8 +75,12 @@
         <div class="shadow-[0_0_4px_0_rgba(0,0,0,.1)] grid grid-cols-[1fr_auto] pb-px px-px">
             <div>
                 <div class="grid grid-cols-2 w-fit">
-                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} use:popup={emojiKeyboardPopup} class="p-1 hover:bg-grey-lighter dark:hover:variant-filled-surface">Emoji</button>
-                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} class="p-1 hover:bg-grey-lighter dark:hover:variant-filled-surface">Obraz</button>
+                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} use:popup={emojiKeyboardPopup} class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
+                        <svelte:component this={isEmojiKeyboardOpen ? EmojiIconFilled : EmojiIcon} class="transition-colors {isEmojiKeyboardOpen ? 'text-tertiary-500' : ''}" />
+                    </button>
+                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
+                        <ImageIcon class="transition-colors" />
+                    </button>
                 </div>
             </div>
             <span class="text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").length}</span>

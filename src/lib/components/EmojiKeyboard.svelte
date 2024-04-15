@@ -11,8 +11,7 @@
         { type: "transport", minVal:128640, maxVal: 128676},
         { type: "misc", minVal:129494, maxVal: 129535},
 	];
-    let categoryIndex: number = 1
-    let selectedEmojis = processSelectedEmojis(0)
+    let categoryIndex: number = 0
     $: selectedEmojis = processSelectedEmojis(categoryIndex)
 
     function processSelectedEmojis(index: number) {
@@ -32,7 +31,7 @@
 </script>
 
 <div class="card mt-2 variant-outline-surface w-min max-h-52 grid grid-rows-[auto_1fr] shadow-md">
-    <RadioGroup padding="p-0" background="bg-grey-lightest dark:bg-black" active="bg-colors" hover="hover:backdrop-brightness-[80%] dark:hover:bg-grey-darkest">
+    <RadioGroup padding="p-0" background="bg-grey-lightest dark:bg-black" rounded="rounded" active="bg-colors" hover="hover:backdrop-brightness-[80%] dark:hover:bg-grey-darkest">
         {#each emojiSets as category, i}
             <RadioItem padding="w-6" bind:group={categoryIndex} title={category.type} name="category" value={i}> {String.fromCodePoint(category.minVal)} </RadioItem>
         {/each}
