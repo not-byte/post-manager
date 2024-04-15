@@ -1,13 +1,13 @@
 <script lang="ts">
-    export let navData: Array<{ route: string, text: string, icon: any, iconActive: any }>;
+    export let navData: Array<{ route: string, text: string, icon: any, iconActive: any, fullRoute: string }>;
     import { page } from "$app/stores";
     import Logo from "./Logo.svelte";
 </script>
 
 <ul class="bg-grey-lightest dark:bg-black w-full h-full lg:hidden grid grid-cols-3 grid-rows-1">
     {#each navData as el, i}
-        <a href={el.route} class="transition-[background-color_background-image] text-xs text-center p-3 border-t border-grey-lightest dark:border-black {($page.route.id == el.route) ? '!border-primary-500' : ''}">
-            <svelte:component this={($page.route.id == el.route) ? el.iconActive : el.icon} class="size-6 mx-auto mb-1"></svelte:component>
+        <a href={el.route} class="transition-[background-color_background-image] text-xs text-center p-3 border-t border-grey-lightest dark:border-black {($page.route.id == el.fullRoute) ? '!border-primary-500' : ''}">
+            <svelte:component this={($page.route.id == el.fullRoute) ? el.iconActive : el.icon} class="size-6 mx-auto mb-1"></svelte:component>
             <li>{ el.text }</li>     
         </a>
         {#if i == 0}
