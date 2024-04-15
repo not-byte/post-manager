@@ -1,11 +1,33 @@
 <script lang="ts">
     import { platformList, post } from "../stores";
+    import { popup } from '@skeletonlabs/skeleton';
+    import type { PopupSettings } from "@skeletonlabs/skeleton"
+    import EmojiKeyboard from "$lib/components/EmojiKeyboard.svelte";
 
     let processedPost = ""
+    let isTextareaFocused = false
+    let isButtonFocused = false
+    let postBodyInput: HTMLTextAreaElement
     let preview: HTMLElement;
     $: if(preview) {
-        console.log(preview.innerText)
         processInput()
+    }
+
+    const emojiKeyboardPopup: PopupSettings = {
+        event: 'click',
+        target: 'emojiKeyboardPopup',
+        placement: 'bottom',
+        middleware: {
+            offset: -10
+        }
+    };
+	
+    function processTextareaFocus(e: Event) {
+        isTextareaFocused = !isButtonFocused
+    }
+
+    function processTextareaBlur(e: Event) {
+        isTextareaFocused = false
     }
 
     function processText(text: string) {
@@ -18,12 +40,17 @@
     }
 
     function processInput() {
-        console.log("input")
         processedPost = processText($post.body)
         if(preview) {
             preview.innerHTML = processedPost
             console.log(preview.innerText)
         }
+    }
+
+    function inputEmoji(e: CustomEvent) {
+        const index = postBodyInput.selectionStart
+        $post.body = $post.body.slice(0, index) + String.fromCodePoint(e.detail.codePoint) + $post.body.slice(index)
+        processInput()
     }
 </script>
 
@@ -35,15 +62,13 @@
 {/if}
 <div>
     <legend class="h3">Treść</legend>
-    <div class="grid grid-rows-[1fr_auto] my-4 variant-ringed-surface dark:variant-ghost-surface overflow-hidden focus-within:variant-ringed-primary dark:focus-within:variant-ringed-primary">
-        <div id="post-body-wrapper">
-            <textarea id="post-body-input" class="textarea variant-ringed-surface min-h-40 border-b-0 px-4 py-2" bind:value={$post.body} on:input={processInput}></textarea>
-        </div>
+    <div on:focusin={processTextareaFocus} on:focusout={processTextareaBlur} class="grid grid-rows-[1fr_auto] my-4 variant-ringed-surface dark:variant-ghost-surface overflow-hidden {isTextareaFocused ? '!variant-ringed-primary dark:!variant-ringed-primary' : ''}">
+        <textarea id="post-body-input" bind:this={postBodyInput} class="textarea transition-none variant-ringed-surface dark:variant-ringed-surface focus:border-0 min-h-40 px-4 py-2 border-b-0" bind:value={$post.body} on:input={processInput}></textarea>
         <div class="shadow-[0_0_4px_0_rgba(0,0,0,.1)] grid grid-cols-[1fr_auto] pb-px px-px">
             <div>
                 <div class="grid grid-cols-2 w-fit">
-                    <button on:click={() => {alert(String.fromCodePoint(127757))}} class="p-1 hover:bg-grey-lighter dark:hover:variant-filled-surface">Emoji</button>
-                    <button class="p-1 hover:bg-grey-lighter dark:hover:variant-filled-surface">Obraz</button>
+                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} use:popup={emojiKeyboardPopup} class="p-1 hover:bg-grey-lighter dark:hover:variant-filled-surface">Emoji</button>
+                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} class="p-1 hover:bg-grey-lighter dark:hover:variant-filled-surface">Obraz</button>
                 </div>
             </div>
             <span class="text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").length}</span>
@@ -53,6 +78,9 @@
         <legend class="h3 my-4">Podgląd</legend>
         <div bind:this={preview} class="textarea variant-ringed-surface outline-none overflow-x-auto h-full min-h-40 max-w-full px-4 py-2"></div>
     </div>
+</div>
+<div data-popup="emojiKeyboardPopup">
+    <EmojiKeyboard on:inputEmoji={inputEmoji} />
 </div>
 
 <style lang="postcss">
