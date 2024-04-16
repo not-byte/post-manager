@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { getToastStore } from "@skeletonlabs/skeleton";
+    import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
     import StyledLightSwitch from "$lib/components/StyledLightSwitch.svelte";
     import Logo from "$lib/components/Logo.svelte";
     import { enhance } from "$app/forms";
@@ -6,10 +8,17 @@
     import Eye from "~icons/ph/eye"
     import EyeClosed from "~icons/ph/eye-closed"
 
+    const toastStore: ToastStore = getToastStore();
     let showPassword: boolean = false
 
     $: if($page.status != 200) {
-        console.log($page.form, $page.status)
+        const t: ToastSettings = {
+            message: $page.form.message,
+            timeout: 5000,
+            background: "variant-filled-error",
+        }
+
+        toastStore.trigger(t)
     } 
 </script>
 
