@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { LightSwitch } from "@skeletonlabs/skeleton";
+    import StyledLightSwitch from "$lib/components/StyledLightSwitch.svelte";
     import Logo from "$lib/components/Logo.svelte";
     import Eye from "~icons/ph/eye"
     import EyeClosed from "~icons/ph/eye-closed"
@@ -13,17 +13,17 @@
 
 <main class="grid gr-dcols-1 lg:grid-cols-2 h-full">
     <div class="flex justify-center lg:items-center">
-        <div class="p-2 lg:p-0">
+        <div class="p-4 lg:p-0">
             <div class="flex w-full justify-between items-center">
-                <a href="https://www.notbyte.com" class="block w-16 hover:brightness-[75%] transition-[filter]">
+                <a href="https://www.notbyte.com" class="block w-8 lg:w-16 hover:brightness-[75%] transition-[filter]">
                     <Logo gradient />
                 </a>
-                <LightSwitch />
+                <StyledLightSwitch />
             </div>
             <div class="p-8">
                 <h2 class="h1 mt-4 mb-1 font-bold">Witaj w notByte Dev!</h2>
                 <h5 class="h5">Zaloguj się aby otrzymać dostęp do panelu deweloperskiego.</h5>
-                <form method="GET" class="my-4">
+                <form method="GET" class="my-4 lg:pl-4 lg:pr-16">
                     <legend>Nazwa użytkownika<span class="text-red-500">*</span></legend>
                     <input type="text" name="username" required class="input variant-ringed-surface dark:variant-ghost-surface mb-2 mt-1">
                     <legend>Hasło<span class="text-red-500">*</span></legend>

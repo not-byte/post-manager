@@ -83,7 +83,7 @@
                     </button>
                 </div>
             </div>
-            <span class="text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").length}</span>
+            <span class="text-xs lg:text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").length}</span>
         </div>
     </div>
     <div class="pt-4">

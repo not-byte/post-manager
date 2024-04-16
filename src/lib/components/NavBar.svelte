@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { AppRail, LightSwitch } from "@skeletonlabs/skeleton";
+    import { AppRail } from "@skeletonlabs/skeleton";
+    import StyledLightSwitch from "./StyledLightSwitch.svelte";
     import Logo from "./Logo.svelte";
     import { page } from "$app/stores";
     export let navData: Array<{ route: string, text: string, fullRoute: string }>;
 </script>
 
-<AppRail background="bg-grey-lightest border-r border-black  dark:bg-black px-4 py-8 h-full hidden lg:grid" width="w-60">
+<AppRail background="bg-grey-lightest border-r border-black  dark:bg-black px-4 py-8 h-full hidden lg:grid overflow-y-hidden" width="w-60">
     <svelte:fragment slot="lead">
         <div class="flex items-center h-4 p-4 w-full">
             <a href="https://www.notbyte.com" class="grid grid-cols-[1fr_auto] gap-2 hover:invert-[25%] transition-all">
@@ -22,8 +23,8 @@
         {/each}
     </ul>
     <svelte:fragment slot="trail">
-        <div class="w-full">
-            <LightSwitch />
+        <div class="w-full mb-2">
+            <StyledLightSwitch />
         </div>
     </svelte:fragment>
 </AppRail>
