@@ -1,8 +1,16 @@
-<script>
+<script lang="ts">
   export let className = "";
+  export let animate: boolean = false;
+  export let gradient: boolean = false;
 </script>
 
-<svg id="notByte" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" class={className}>
+<svg id="notByte" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" class={className + (animate ? ' [&_.cls-1]:!animate-[logoAnimation_5s]' : '') + (gradient ? ' [&_.cls-1]:!fill-[url(#color-gradient)]' : '')}>
+  <linearGradient id="color-gradient" x2="1" y2="1">
+    <stop offset="0%" stop-color="rgba(240,132,97,1.00)" />
+    <stop offset="40%" stop-color="rgba(129,81,156,1.00)" />
+    <stop offset="69%" stop-color="rgba(234,86,87,1.00)" />
+    <stop offset="100%" stop-color="rgba(240,132,97,1.00)" />
+  </linearGradient>
   <g id="white">
     <g id="background">
       <g>
@@ -14,13 +22,9 @@
   </g>
 </svg>
 
-<style>
+<style lang="postcss">
     .cls-1 {
-        fill: #000;
-        stroke-width: 0px;
-    }
-    :global(.dark .cls-1) {
-        fill: #fff;
-        stroke-width: 0px;
+        fill: currentColor;
+        stroke-width: 0;
     }
 </style>

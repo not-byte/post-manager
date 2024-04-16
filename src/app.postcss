@@ -7,3 +7,24 @@ html,
 body {
 	@apply h-full overflow-hidden;
 }
+
+@keyframes logoAnimation {
+	0% {
+	  fill: transparent;
+	  stroke: currentColor;
+	  stroke-width: .5rem;
+	  stroke-dasharray: 17040.01171875;
+	  stroke-dashoffset: 17040.01171875;  
+	}
+	30% {
+	  fill: transparent;
+	  stroke: currentColor;
+	  stroke-width: .5rem;
+	}
+	100% {
+	  stroke-dashoffset: 0;
+	  fill: currentColor;
+	  stroke-width: 0px;
+	  stroke: currentColor;
+	}
+}
