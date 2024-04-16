@@ -1,9 +1,11 @@
 <script lang="ts">
-    import { AppRail } from "@skeletonlabs/skeleton";
+    import { AppRail, Avatar } from "@skeletonlabs/skeleton";
     import StyledLightSwitch from "./StyledLightSwitch.svelte";
     import Logo from "./Logo.svelte";
     import { page } from "$app/stores";
     export let navData: Array<{ route: string, text: string, fullRoute: string }>;
+
+    const { user } = $page.data
 </script>
 
 <AppRail background="bg-grey-lightest border-r border-black  dark:bg-black px-4 py-8 h-full hidden lg:grid overflow-y-hidden" width="w-60">
@@ -23,7 +25,8 @@
         {/each}
     </ul>
     <svelte:fragment slot="trail">
-        <div class="w-full mb-2">
+        <div class="w-full mb-2 flex justify-between items-end">
+            <Avatar initials={user.username.slice(0, 2)} background="bg-colors" fill="fill-white" cursor="cursor-default" width="size-12" alt={user.username} />
             <StyledLightSwitch />
         </div>
     </svelte:fragment>
