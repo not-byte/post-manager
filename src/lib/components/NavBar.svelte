@@ -1,5 +1,6 @@
 <script lang="ts">
     import { AppRail, Avatar, popup } from "@skeletonlabs/skeleton";
+    import AccountPopup from "./AccountPopup.svelte";
     import StyledLightSwitch from "./StyledLightSwitch.svelte";
     import { accountPopupSettings } from "./NavUtils";
     import Logo from "./Logo.svelte";
@@ -9,7 +10,7 @@
     const { user } = $page.data
 </script>
 
-<AppRail background="bg-grey-lightest border-r border-black  dark:bg-black px-4 py-8 h-full hidden lg:grid overflow-y-hidden" width="w-60">
+<AppRail background="bg-grey-lightest border-r border-grey-lightest dark:border-black dark:bg-black px-4 py-8 h-full hidden lg:grid overflow-y-hidden" width="w-60">
     <svelte:fragment slot="lead">
         <div class="flex items-center h-4 p-4 w-full">
             <a href="https://www.notbyte.com" class="grid grid-cols-[1fr_auto] gap-2 hover:invert-[25%] transition-all">
@@ -33,4 +34,7 @@
             <StyledLightSwitch />
         </div>
     </svelte:fragment>
+    <div data-popup="accountPopupSettings">
+		<AccountPopup />
+	</div>
 </AppRail>

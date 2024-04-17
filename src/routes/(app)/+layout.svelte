@@ -2,7 +2,6 @@
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import NavBarResponsive from '$lib/components/NavBarResponsive.svelte';
-	import AccountPopup from '$lib/components/AccountPopup.svelte';
 	import Pencil from '~icons/ph/pencil-simple'
 	import PencilFilled from '~icons/ph/pencil-simple-fill'
 	import Gear from '~icons/ph/gear-six'
@@ -31,9 +30,6 @@
 </svelte:head>
 
 <AppShell>
-	<div data-popup="accountPopupSettings">
-		<AccountPopup />
-	</div>
 	<svelte:fragment slot="sidebarLeft">
 		<NavBar {navData} />
 	</svelte:fragment>

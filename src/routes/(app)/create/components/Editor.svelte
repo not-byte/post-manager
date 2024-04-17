@@ -9,8 +9,6 @@
     import ImageIconFilled from "~icons/ph/image-fill"
 
     let processedPost = ""
-    let isTextareaFocused = false
-    let isButtonFocused = false
     let isEmojiKeyboardOpen = false
     let postBodyInput: HTMLTextAreaElement
     let preview: HTMLElement;
@@ -29,14 +27,6 @@
             offset: -10
         }
     };
-	
-    function processTextareaFocus(e: Event) {
-        isTextareaFocused = !isButtonFocused
-    }
-
-    function processTextareaBlur(e: Event) {
-        isTextareaFocused = false
-    }
 
     function processText(text: string) {
         const hashtagRegex = /#\w+/g
@@ -65,20 +55,20 @@
 {#if $platformList[3].checked}    
     <div>
         <legend class="h3">Tytuł</legend>
-        <input type="text" class="input variant-ringed-surface dark:variant-ghost-surface my-4" bind:value={$post.title}>
+        <input type="text" class="styled-input my-4" bind:value={$post.title}>
     </div>
 {/if}
 <div>
     <legend class="h3">Treść</legend>
-    <div on:focusin={processTextareaFocus} on:focusout={processTextareaBlur} class="grid grid-rows-[1fr_auto] my-4 variant-ringed-surface dark:variant-ghost-surface overflow-hidden {isTextareaFocused ? '!variant-ringed-primary dark:!variant-ringed-primary' : ''}">
-        <textarea id="post-body-input" bind:this={postBodyInput} class="textarea transition-none variant-ringed-surface dark:variant-ringed-surface focus:border-0 min-h-40 px-4 py-2 border-b-0" bind:value={$post.body} on:input={processInput}></textarea>
+    <div class="grid grid-rows-[1fr_auto] my-4 variant-ringed-surface border-0 dark:variant-ghost-surface ring-grey-light dark:!ring-grey-darker overflow-hidden focus-within:!variant-ringed-primary transition-[color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter]">
+        <textarea id="post-body-input" bind:this={postBodyInput} class="textarea transition-none variant-ringed-surface !ring-0 min-h-40 px-4 py-2 !border-0" bind:value={$post.body} on:input={processInput}></textarea>
         <div class="shadow-[0_0_4px_0_rgba(0,0,0,.1)] grid grid-cols-[1fr_auto] pb-px px-px">
             <div>
                 <div class="grid grid-cols-2 w-fit">
-                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} use:popup={emojiKeyboardPopup} title="{isEmojiKeyboardOpen ? "Hide" : "Show"} Emoji Keyboard" class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
+                    <button use:popup={emojiKeyboardPopup} title="{isEmojiKeyboardOpen ? "Hide" : "Show"} Emoji Keyboard" class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
                         <svelte:component this={isEmojiKeyboardOpen ? EmojiIconFilled : EmojiIcon} class="transition-colors {isEmojiKeyboardOpen ? 'text-tertiary-500' : ''}" />
                     </button>
-                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} title="Upload image" class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
+                    <button title="Upload image" class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
                         <ImageIcon class="transition-colors" />
                     </button>
                 </div>
@@ -88,7 +78,7 @@
     </div>
     <div class="pt-4">
         <legend class="h3 my-4">Podgląd</legend>
-        <div bind:this={preview} class="textarea variant-ringed-surface outline-none overflow-x-auto h-full min-h-40 max-w-full px-4 py-2"></div>
+        <div bind:this={preview} class="variant-ringed-surface ring-grey-light dark:!ring-grey-darker overflow-x-auto h-full min-h-40 max-w-full px-4 py-2"></div>
     </div>
 </div>
 <div data-popup="emojiKeyboardPopup">

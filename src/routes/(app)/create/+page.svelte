@@ -7,7 +7,7 @@
 <div class="p-6 lg:p-8 lg:px-16 overflow-x-auto">
     <Editor />
 </div>
-<div class="border-l border-black dark:border-grey-darkest p-8 hidden lg:block">
+<div class="border-l border-grey-light dark:border-grey-darker p-8 hidden lg:block">
     <Options />
 </div>
 

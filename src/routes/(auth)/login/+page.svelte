@@ -20,6 +20,13 @@
 
         toastStore.trigger(t)
     } 
+
+    function focusOnPasswordInput() {
+        const input = document.getElementById("password-input")
+        if(!input) return
+
+        input.focus()
+    }
 </script>
 
 <svelte:head>
@@ -27,28 +34,28 @@
 </svelte:head>
 
 <main class="grid gr-dcols-1 lg:grid-cols-2 h-full">
-    <div class="flex justify-center lg:items-center">
+    <div class="flex justify-center items-center">
         <div class="p-4 lg:p-0">
-            <div class="flex w-full justify-between items-center">
-                <a href="https://www.notbyte.com" class="block w-8 lg:w-16 hover:brightness-[75%] transition-[filter]">
+            <div class="flex w-full justify-center lg:justify-between items-center">
+                <a href="https://www.notbyte.com" class="block w-32 lg:w-16 hover:brightness-[75%] transition-[filter]">
                     <Logo gradient />
                 </a>
-                <StyledLightSwitch />
+                <StyledLightSwitch className="hidden lg:block" />
             </div>
-            <div class="p-8">
-                <h2 class="h1 mt-4 mb-1 font-bold">Witaj w notByte Dev!</h2>
-                <h5 class="h5">Zaloguj się aby otrzymać dostęp do panelu deweloperskiego.</h5>
+            <div class="px-8 py-2 lg:py-8">
+                <h2 class="text-center lg:text-left h2 lg:h1 mt-4 mb-1 font-bold">Witaj w notByte Dev!</h2>
+                <h5 class="text-center lg:text-left h6 lg:h5">Zaloguj się aby otrzymać dostęp do panelu deweloperskiego.</h5>
                 <form use:enhance method="post" action="?/login" class="my-4 lg:pl-4 lg:pr-16">
                     <legend>Nazwa użytkownika<span class="text-red-500">*</span></legend>
-                    <input type="text" name="username" required class="input variant-ringed-surface dark:variant-ghost-surface mb-2 mt-1">
+                    <input type="text" name="username" required class="styled-input mb-2 mt-1">
                     <legend>Hasło<span class="text-red-500">*</span></legend>
-                    <div class="input-group variant-ringed-surface dark:variant-ghost-surface grid-cols-[1fr_auto] mt-1">
-                        <input type={showPassword ? "text" : "password"} name="password" required class="input variant-ringed-surface dark:variant-ghost-surface">
-                        <div class="!pl-0 !pr-3 dark:bg-surface-700">
+                    <div class="styled-input-group grid-cols-[1fr_auto] mt-1">
+                        <input id="password-input" type={showPassword ? "text" : "password"} name="password" required class="input variant-ringed-surface dark:variant-ghost-surface">
+                        <div class="!pl-0 !pr-3">
                             <label for="show-password-checkbox" class="cursor-pointer" title={showPassword ? "Hide password" : "Show password"}>
                                 <svelte:component this={showPassword ? Eye : EyeClosed} />
                             </label>
-                            <input type="checkbox" id="show-password-checkbox" bind:checked={showPassword} class="hidden">
+                            <input on:change={focusOnPasswordInput} type="checkbox" id="show-password-checkbox" bind:checked={showPassword} class="hidden">
                         </div>
                     </div>
                     <button type="submit" class="btn py-2 pr-8 pl-6 mt-6 bg-colors text-white corner-br-md corner-white dark:corner-night">Zaloguj się</button>

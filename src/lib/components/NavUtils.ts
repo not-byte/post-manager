@@ -5,3 +5,9 @@ export const accountPopupSettings: PopupSettings = {
     target: 'accountPopupSettings',
     placement: 'top',
 }
+
+export const accountPopupResponsiveSettings: PopupSettings = {
+    event: 'click',
+    target: 'accountPopupResponsiveSettings',
+    placement: 'top',
+}

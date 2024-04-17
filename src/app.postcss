@@ -8,6 +8,14 @@ body {
 	@apply h-full overflow-hidden;
 }
 
+.styled-input {
+	@apply input !outline-none !border-0 variant-ringed-surface ring-grey-light dark:variant-ghost-surface dark:!ring-grey-darker focus:!variant-ringed-primary;
+}
+
+.styled-input-group {
+	@apply input-group !outline-none !border-0 variant-ringed-surface ring-grey-light dark:variant-ghost-surface dark:!ring-grey-darker focus-within:!variant-ringed-primary;
+}
+
 @keyframes logoAnimation {
 	0% {
 	  fill: transparent;
