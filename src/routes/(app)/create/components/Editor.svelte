@@ -1,15 +1,20 @@
 <script lang="ts">
     import { platformList, post } from "../stores";
-    import { popup } from '@skeletonlabs/skeleton';
-    import type { PopupSettings } from "@skeletonlabs/skeleton"
+    import { popup, getModalStore } from '@skeletonlabs/skeleton';
+    import type { PopupSettings, ModalSettings } from "@skeletonlabs/skeleton"
+    import OptionsModal from "./OptionsModal.svelte";
     import EmojiKeyboard from "$lib/components/EmojiKeyboard.svelte";
     import EmojiIcon from "~icons/ph/smiley-wink"
     import EmojiIconFilled from "~icons/ph/smiley-wink-fill"
     import ImageIcon from "~icons/ph/image"
     import ImageIconFilled from "~icons/ph/image-fill"
+    import Cog from "~icons/ph/gear-six"
+    import Send from "~icons/ph/paper-plane"
 
+    const modalStore = getModalStore();
     let processedPost = ""
     let isEmojiKeyboardOpen = false
+    let windowSize: number
     let postBodyInput: HTMLTextAreaElement
     let preview: HTMLElement;
     $: if(preview) {
@@ -27,6 +32,16 @@
             offset: -10
         }
     };
+
+    const optionsModal: ModalSettings = {
+        type: 'component',
+        component: { ref: OptionsModal },
+    }
+
+    function openOptionsModal() {
+        // console.log("Opening options modal")
+        modalStore.trigger(optionsModal)
+    }
 
     function processText(text: string) {
         const hashtagRegex = /#\w+/g
@@ -49,8 +64,11 @@
         const index = postBodyInput.selectionStart
         $post.body = $post.body.slice(0, index) + String.fromCodePoint(e.detail.codePoint) + $post.body.slice(index)
         processInput()
+        postBodyInput.focus()
     }
 </script>
+
+<svelte:window bind:innerWidth={windowSize}/>
 
 {#if $platformList[3].checked}    
     <div>
@@ -75,6 +93,22 @@
             </div>
             <span class="text-xs lg:text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").length}</span>
         </div>
+    </div>
+    <div>
+        {#if windowSize < 1024}
+            <button class="btn variant-filled-tertiary" on:click={openOptionsModal}>
+                <span>Opcje</span>
+                <span>
+                    <Cog class="size-6" />
+                </span>
+            </button>
+        {/if}
+        <button class="btn variant-filled-primary">
+            <span>Opublikuj</span>
+            <span>
+                <Send class="size-6" />
+            </span>
+        </button>
     </div>
     <div class="pt-4">
         <legend class="h3 my-4">Podgląd</legend>

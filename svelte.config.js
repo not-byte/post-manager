@@ -7,6 +7,7 @@ const config = {
 	preprocess: [vitePreprocess()],
 	onwarn: (warning, handler) => {
 		if(warning.message.includes('Unused CSS selector')) return;
+		if(warning.message.includes("has unused export property 'parent'")) return;
 		handler(warning);
 	},
 	kit: {

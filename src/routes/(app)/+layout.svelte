@@ -4,8 +4,8 @@
 	import NavBarResponsive from '$lib/components/NavBarResponsive.svelte';
 	import Pencil from '~icons/ph/pencil-simple'
 	import PencilFilled from '~icons/ph/pencil-simple-fill'
-	import Gear from '~icons/ph/gear-six'
-	import GearFilled from '~icons/ph/gear-six-fill'
+	import Wrench from '~icons/ph/wrench'
+	import WrenchFilled from '~icons/ph/wrench-fill'
 
 	const navData: Array<{ route: string, text: string, icon: any, iconActive: any, fullRoute: string }> = [
         {
@@ -19,8 +19,8 @@
             text: "Konfiguruj",
             route: "/config",
 			fullRoute: "/(app)/config",
-			icon: Gear,
-			iconActive: GearFilled
+			icon: Wrench,
+			iconActive: WrenchFilled
         }
     ]
 </script>
