@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { AppRail, Avatar } from "@skeletonlabs/skeleton";
+    import { AppRail, Avatar, popup } from "@skeletonlabs/skeleton";
     import StyledLightSwitch from "./StyledLightSwitch.svelte";
+    import { accountPopupSettings } from "./NavUtils";
     import Logo from "./Logo.svelte";
     import { page } from "$app/stores";
     export let navData: Array<{ route: string, text: string, fullRoute: string }>;
@@ -26,7 +27,9 @@
     </ul>
     <svelte:fragment slot="trail">
         <div class="w-full mb-2 flex justify-between items-end">
-            <Avatar initials={user.username.slice(0, 2)} background="bg-colors" fill="fill-white" cursor="cursor-default" width="size-12" alt={user.username} />
+            <button use:popup={accountPopupSettings}>
+                <Avatar initials={user.username.slice(0, 2)} background="bg-colors" fill="fill-white" width="size-12" alt={user.username} />
+            </button>
             <StyledLightSwitch />
         </div>
     </svelte:fragment>

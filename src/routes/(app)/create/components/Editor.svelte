@@ -75,10 +75,10 @@
         <div class="shadow-[0_0_4px_0_rgba(0,0,0,.1)] grid grid-cols-[1fr_auto] pb-px px-px">
             <div>
                 <div class="grid grid-cols-2 w-fit">
-                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} use:popup={emojiKeyboardPopup} class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
+                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} use:popup={emojiKeyboardPopup} title="{isEmojiKeyboardOpen ? "Hide" : "Show"} Emoji Keyboard" class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
                         <svelte:component this={isEmojiKeyboardOpen ? EmojiIconFilled : EmojiIcon} class="transition-colors {isEmojiKeyboardOpen ? 'text-tertiary-500' : ''}" />
                     </button>
-                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
+                    <button on:focus={() => { isButtonFocused = true }} on:blur={() => { isButtonFocused = false }} title="Upload image" class="px-2 py-1 hover:bg-grey-lighter dark:hover:variant-filled-surface hover:!text-tertiary-500">
                         <ImageIcon class="transition-colors" />
                     </button>
                 </div>

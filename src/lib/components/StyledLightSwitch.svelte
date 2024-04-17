@@ -48,7 +48,7 @@
 {#if load}
     <div class="relative size-6" in:fade={{ duration: 200 }}>
         {#key $modeCurrent}
-            <button title={ `Toggle ${ $modeCurrent ? 'dark' : 'light' } mode` } class="absolute origin-bottom hover:text-primary-500 [&_*]:transition-colors [&_*]:duration-100" on:click={onToggleHandler} out:lightSwitch={{ duration: time, x: -distance }} in:lightSwitch={{ delay: time, duration: time, x: distance }}>
+            <button id="lightswitch" title={ `Toggle ${ $modeCurrent ? 'dark' : 'light' } mode` } class="absolute left-0 origin-bottom hover:text-primary-500 [&_*]:transition-colors [&_*]:duration-100" on:click={onToggleHandler} out:lightSwitch={{ duration: time, x: -distance }} in:lightSwitch={{ delay: time, duration: time, x: distance }}>
                 <svelte:component this={$modeCurrent ? Sun : Moon} class="size-6" />
             </button>
         {/key}
