@@ -38,7 +38,7 @@
             <div class="p-8">
                 <h2 class="h1 mt-4 mb-1 font-bold">Witaj w notByte Dev!</h2>
                 <h5 class="h5">Zaloguj się aby otrzymać dostęp do panelu deweloperskiego.</h5>
-                <form use:enhance method="post" action="/login" class="my-4 lg:pl-4 lg:pr-16">
+                <form use:enhance method="post" action="?/login" class="my-4 lg:pl-4 lg:pr-16">
                     <legend>Nazwa użytkownika<span class="text-red-500">*</span></legend>
                     <input type="text" name="username" required class="input variant-ringed-surface dark:variant-ghost-surface mb-2 mt-1">
                     <legend>Hasło<span class="text-red-500">*</span></legend>

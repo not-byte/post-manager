@@ -10,7 +10,6 @@ const testUser: User = {
 }
 
 export async function load({ locals }) {
-    // console.log(locals.user, "login page")
     if(locals.user)
         throw redirect(301, "/")
     
@@ -20,23 +19,27 @@ export async function load({ locals }) {
 }
 
 export const actions = {
-    default: async({ cookies, request }) => {
+    login: async({ cookies, request }) => {
         const formData = await request.formData()
         const loginData = {
             username: await formData.get("username"),
             password: await formData.get("password")
         }
-        
+
         if(loginData.password == testUser.password && loginData.username == testUser.username) {
             const authToken = jwt.sign({user: testUser}, RSA_KEY, {expiresIn: "30d"})
-            cookies.set("authToken", authToken, { httpOnly: true, maxAge: 3600 * 24 * 30, sameSite: "strict", path: "/"})
+            cookies.set("authToken", authToken, { httpOnly: true, maxAge: 3600 * 24 * 30, path: "/", secure: false })
 
-            throw redirect(302, "/")
+            throw redirect(301, "/")
         }
         else {
             return fail(400, {
                 message: "Incorrect login data."
             })
         }
+    },
+    logout: async({ cookies }) => {
+        cookies.set("authToken", "", { httpOnly: true, maxAge: 0, path: "/", secure: false })
+        throw redirect(302, "/login")
     }
 }
