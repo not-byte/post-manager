@@ -1,7 +1,9 @@
 <script lang="ts">
     export let className: string = ''
+    export let hidden: boolean = false
     import { modeCurrent, setModeCurrent, getModeAutoPrefers, setModeUserPrefers, getModeOsPrefers, setInitialClassState } from '@skeletonlabs/skeleton';
     import { fade } from 'svelte/transition'
+    import { lightSwitch } from '$lib/transitions';
     import { onMount } from 'svelte'
     import Moon from "~icons/ph/moon-stars"
     import Sun from "~icons/ph/sun"
@@ -25,22 +27,6 @@
 		setModeUserPrefers($modeCurrent);
 		setModeCurrent($modeCurrent);
 	}
-
-    function lightSwitch(node: any, { delay = 0, duration, x }: { delay?: number, duration: number, x: number }) {
-        return {
-            duration,
-            x,
-            delay,
-            css: (t: number) => {
-                const dir = x >= 0 ? 1 : -1
-
-                return `
-                    transform: rotate(${ ( 90 - (t * 90) ) * dir }deg) translateX(${ x - (t * x) }px);
-                    opacity: ${ t };
-                `
-            }
-        }
-    }
 </script>
 
 <svelte:head>
@@ -48,7 +34,7 @@
 </svelte:head>
 
 {#if load}
-    <div class="relative size-6 {className}" in:fade={{ duration: 200 }}>
+    <div class="relative size-6 {className} {hidden ? '!hidden' : ''}" in:fade={{ duration: 200 }}>
         {#key $modeCurrent}
             <button id="lightswitch" title={ `Toggle ${ $modeCurrent ? 'dark' : 'light' } mode` } class="absolute left-0 origin-bottom hover:text-primary-500 [&_*]:transition-colors [&_*]:duration-100" on:click={onToggleHandler} out:lightSwitch={{ duration: time, x: -distance }} in:lightSwitch={{ delay: time, duration: time, x: distance }}>
                 <svelte:component this={$modeCurrent ? Sun : Moon} class="size-6" />
@@ -56,5 +42,5 @@
         {/key}
     </div>
 {:else}
-    <Fallback class="size-6 animate-spin opacity-20" />
+    <Fallback class="size-6 animate-spin opacity-20 {hidden ? 'hidden' : ''}" />
 {/if}

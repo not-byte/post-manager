@@ -40,7 +40,7 @@
                 <a href="https://www.notbyte.com" class="block w-32 lg:w-16 hover:brightness-[75%] transition-[filter]">
                     <Logo gradient />
                 </a>
-                <StyledLightSwitch className="hidden lg:block" />
+                <StyledLightSwitch className="lg:block" hidden />
             </div>
             <div class="px-8 py-2 lg:py-8">
                 <h2 class="text-center lg:text-left h2 lg:h1 mt-4 mb-1 font-bold">Witaj w notByte Dev!</h2>

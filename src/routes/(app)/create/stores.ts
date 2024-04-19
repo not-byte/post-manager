@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable, type Writable } from "svelte/store";
 
 // INTERFACES 
 // ========================================================
@@ -11,6 +11,11 @@ export interface Platform {
 export interface Post {
     title: string,
     body: string
+}
+
+export interface ImageObject {
+    file: File,
+    url: string
 }
 
 // STORES
@@ -42,3 +47,5 @@ export const platformList = writable([
         icon: ""
     },
 ])
+
+export const image: Writable<ImageObject | undefined> = writable(undefined)
