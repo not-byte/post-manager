@@ -7,6 +7,7 @@ export async function load({ locals }) {
     
     return { 
         user: locals.user,
-        fbUser: locals.fbUser
+        fbUser: locals.fbUser,
+        inUser: locals.inUser
     }
 }

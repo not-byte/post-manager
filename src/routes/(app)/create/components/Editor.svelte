@@ -12,7 +12,7 @@
     import ImageIcon from "~icons/ph/image"
     import ImageIconFilled from "~icons/ph/image-fill"
     import Cog from "~icons/ph/gear-six"
-    import Send from "~icons/ph/paper-plane"
+    import Send from "~icons/ph/paper-plane-fill"
 
     const modalStore = getModalStore();
     let processedPost = ""
@@ -133,7 +133,7 @@
             <span class="text-xs lg:text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").length}</span>
         </div>
     </div>
-    <div>
+    <div class="flex justify-center lg:justify-start gap-3">
         {#if windowSize < 1024}
             <button class="btn btn-sm py-[calc(.5rem-1px)] border border-colors border-inset" on:click={openOptionsModal}>
                 <span>Opcje</span>

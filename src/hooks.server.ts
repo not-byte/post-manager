@@ -7,6 +7,7 @@ export async function handle({ event, resolve }) {
     const fbToken = event.cookies.get("fbToken")
     try {
         // AUTH SECTION
+        //==================================================================
         if(!authToken) 
             event.locals.user = undefined
         
@@ -21,6 +22,7 @@ export async function handle({ event, resolve }) {
             event.locals.user = authClaims.user
             
         // FB SECTION
+        //==================================================================
         if(!fbToken) 
             event.locals.fbUser = undefined
 
@@ -35,6 +37,10 @@ export async function handle({ event, resolve }) {
             // @ts-ignore
             event.locals.fbUser = await fb.getUserData(fbClaims.token)
         } 
+
+        // LINKEDIN SECTION
+        //==================================================================
+        event.locals.inUser = undefined
     } finally {
         const response = await resolve(event)
         return response

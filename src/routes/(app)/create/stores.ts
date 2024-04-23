@@ -5,7 +5,7 @@ import { writable, type Writable } from "svelte/store";
 export interface Platform {
     text: string,
     checked: boolean,
-    icon: string
+    requiredLogin: "fb" | "in" | null
 }
 
 export interface Post {
@@ -29,22 +29,22 @@ export const platformList = writable([
     {
         text: "Facebook",
         checked: true,
-        icon: ""
+        requiredLogin: "fb"
     },
     {
         text: "Instagram",
         checked: true,
-        icon: ""
+        requiredLogin: "fb"
     },
     {
         text: "LinkedIn",
         checked: true,
-        icon: ""
+        requiredLogin: "in"
     },
     {
         text: "Strona",
         checked: true,
-        icon: ""
+        requiredLogin: null
     },
 ])
 
