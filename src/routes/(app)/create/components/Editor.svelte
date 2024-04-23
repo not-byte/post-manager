@@ -154,7 +154,7 @@
         <div class="variant-ringed-surface ring-grey-light dark:!ring-grey-darker overflow-x-auto h-full min-h-40 max-w-full px-4 py-2">
             <div bind:this={preview}></div>
             {#if $image}
-                <img src={$image.url} alt={$image.file.name} class="w-52">
+                <img src={$image.url} alt={$image.file.name} class="w-52 my-2">
             {/if}
         </div>
     </div>

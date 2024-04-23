@@ -4,9 +4,10 @@ declare global {
 	namespace App {
 		interface Locals {
 			user: Object | undefined
+			fbUser: Object | undefined
 		}
-		// interface PageData {}
 		// interface Error {}
+		// interface PageData {}
 		// interface Platform {}
 	}
 } 
