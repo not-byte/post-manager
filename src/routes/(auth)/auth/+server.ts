@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit'
+import { redirect, error } from '@sveltejs/kit'
 import { RSA_KEY } from '$env/static/private'
 import { fb } from '$lib/fb'
 import jwt from 'jsonwebtoken'
@@ -27,7 +27,6 @@ export async function GET({ url, cookies }) {
     })
 
     if(params.error) {
-        // TODO: add error page
         console.log({
             error: params.error,
             error_code: params.error_code,
@@ -35,19 +34,20 @@ export async function GET({ url, cookies }) {
             error_description: params.error_description
         })
 
-        throw redirect(301, "/config")
+        throw error(500, `Facebook authentication failed: ${params.error_description}`)
     }
 
     if(params.code) {
         const slToken = await fb.getAccessToken(params.code)
         const llToken = await fb.getLongLivedAccessToken(slToken.access_token)
+        // console.log(slToken, llToken)
         const pageToken = await fb.getPageAccessToken(llToken.access_token)
         const token = jwt.sign({ 
             token: llToken.access_token,
             pageToken: pageToken
-        }, RSA_KEY, { expiresIn: llToken.expires_in })
+        }, RSA_KEY, { expiresIn: llToken.expires_in ? llToken.expires_in : '60d'})
 
-        cookies.set("fbToken", token, { httpOnly: true, maxAge: llToken.expires_in, path: "/", secure: false })
+        cookies.set("fbToken", token, { httpOnly: true, maxAge: llToken.expires_in ? llToken.expires_in : 3600*24*60, path: "/", secure: false })
     }
 
     // console.log(params)

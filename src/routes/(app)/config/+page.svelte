@@ -1,24 +1,19 @@
 <script lang="ts">
-    import FbIcon from "~icons/logos/facebook"
+    import SocialConnect from "./components/SocialConnect.svelte";
     import { page } from "$app/stores"
 
     const { fbUser } = $page.data
+    const fbProfilePictureUrl = fbUser?.picture?.data?.url
 </script>
 
 <div class="p-6 lg:p-8 lg:px-16 overflow-x-auto">
-    {#if fbUser}
-        <h3 class="h3 mb-4">
-            Witaj {fbUser.name}!
-        </h3>
-    {:else}
-        <form on:submit={() => { console.log("Form submitted") }} method="post" action="?/fb">
-            <h3 class="h3 mb-4">
-                Zaloguj się na Facebooku, aby kontynuować
-            </h3>
-            <button type="submit" class="btn bg-[#1877F2]">
-                <FbIcon class="size-6 [&_path:first-child]:!fill-white [&_path:last-child]:!fill-transparent" />
-                <span>Zaloguj się</span>
-            </button>
-        </form>
-    {/if}
+    <h1 class="h1 mb-1">Połączone konta</h1>
+    <h3 class="text-lg mb-4">Aby korzystać z poszczególnych platform musisz być zalogowany poniżej</h3>
+    <div class="flex justify-center gap-8">
+        {#if fbUser}
+            <SocialConnect platform="Facebook" connected={true} profilePicture={fbProfilePictureUrl} />
+        {:else}
+            <SocialConnect platform="Facebook" connected={false} />
+        {/if}
+    </div>
 </div>
