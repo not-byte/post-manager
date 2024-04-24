@@ -8,5 +8,5 @@
 </script>
 
 <Toast buttonDismiss="btn-icon btn-icon-sm hover:rotate-180 duration-300" />
-<Modal />
+<Modal buttonTextCancel="Nie" buttonTextConfirm="Tak" buttonNeutral="variant-outline-surface !outline-none ring-black dark:ring-white" />
 <slot />

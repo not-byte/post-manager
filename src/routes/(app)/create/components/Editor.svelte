@@ -3,6 +3,7 @@
     import { popup, getModalStore } from '@skeletonlabs/skeleton';
     import type { PopupSettings, ModalSettings } from "@skeletonlabs/skeleton"
     import OptionsModal from "./OptionsModal.svelte";
+    import PostSubmitModal from "./PostSubmitModal.svelte";
     import EmojiKeyboard from "$lib/components/EmojiKeyboard.svelte";
     import ImageUpload from "./ImageUpload.svelte";
     import SelectedImage from "./SelectedImage.svelte";
@@ -55,8 +56,22 @@
         component: { ref: OptionsModal },
     }
 
+    const postConfirmModal: ModalSettings = {
+        type: 'confirm',
+        title: 'Czy na pewno chcesz opublikować post?',
+        body: 'Upewnij się, że wszystkie pola są uzupełnione.',
+        response: (r: boolean) => {
+            if(r)
+                modalStore.trigger(postSubmitModal)
+        }
+    }
+
+    const postSubmitModal: ModalSettings = {
+        type: 'component',
+        component: { ref: PostSubmitModal },
+    }
+
     function openOptionsModal() {
-        // console.log("Opening options modal")
         modalStore.trigger(optionsModal)
     }
 
@@ -73,7 +88,6 @@
         processedPost = processText($post.body)
         if(preview) {
             preview.innerHTML = processedPost
-            // console.log(preview.innerText)
         }
     }
 
@@ -85,17 +99,10 @@
     }
 
     function sendPost() {
-        const completePost = {
-            ...$post,
-            platforms: $platformList.filter(platform => platform.checked).map(platform => platform.text),
-            image: $image
-        }
-
-        console.log(completePost)
+        modalStore.trigger(postConfirmModal)
     }
 
     function removeImage() {
-        // console.log("Removing image")
         if($image)
             window.URL.revokeObjectURL($image.url)
         image.set(undefined)
