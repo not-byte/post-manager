@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { platformList } from "../stores";
+    import { platformList, plannedDate } from "../stores";
     import { page } from "$app/stores";
-    import { popup } from "@skeletonlabs/skeleton";
+    import { popup, SlideToggle } from "@skeletonlabs/skeleton";
     import type { PopupSettings } from "@skeletonlabs/skeleton";
     import QuestionMark from "~icons/ph/question-fill";
 
@@ -12,13 +12,24 @@
         placement: 'bottom',
     }
 
+    let isPostPlanned = false;
+    // let plannedDate: string | undefined = undefined;
     let selectAll = $platformList.every(platform => platform.checked);
+
     $: if(selectAll) {
         platformList.set($platformList.map(platform => { 
             platform.checked = true
             return platform
         }))
     }
+
+    $: if(!isPostPlanned) {
+        $plannedDate = undefined
+    }
+
+    // $: if($plannedDate) {
+    //     console.log(Date.parse($plannedDate))
+    // }
 </script>
 
 <div data-popup="questionSettings" class="card variant-filled-surface opacity-100 z-50 py-1 px-2">
@@ -49,3 +60,18 @@
         {/each}
     </div>
 {/key}
+<legend class="mt-4">Zaplanuj datę opublikowania postu (nie działa na stronie)</legend>
+<div class="my-2">
+    <SlideToggle name="plan-post" size="sm" background="bg-grey-light dark:bg-grey-darkest" active="bg-secondary-500" bind:checked={isPostPlanned}>
+        Zaplanuj post
+    </SlideToggle>
+</div>
+{#if isPostPlanned}
+    <input type="datetime-local" bind:value={$plannedDate} class="input variant-outline-surface bg-transparent border-grey-light dark:variant-ghost-surface dark:border-grey-darker focus:!border-secondary-500" />
+{/if}
+
+<style lang="postcss">
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+        @apply invert-0 dark:invert;
+    }
+</style>

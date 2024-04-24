@@ -48,4 +48,6 @@ export const platformList = writable([
     },
 ])
 
+export const plannedDate: Writable<string | undefined> = writable(undefined)
+
 export const image: Writable<ImageObject | undefined> = writable(undefined)
