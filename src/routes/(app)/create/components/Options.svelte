@@ -1,5 +1,6 @@
 <script lang="ts">
     import { platformList, plannedDate } from "../stores";
+    import type { Platform } from "../stores";
     import { page } from "$app/stores";
     import { popup, SlideToggle } from "@skeletonlabs/skeleton";
     import type { PopupSettings } from "@skeletonlabs/skeleton";
@@ -12,13 +13,29 @@
         placement: 'bottom',
     }
 
+    $: if(fbUser) {
+        platformList.set($platformList.map((platform: Platform) => {
+            if(platform.requiredLogin === "fb")
+                platform.valid = true
+            return platform
+        }))
+    }
+
+    $: if(inUser) {
+        platformList.set($platformList.map((platform: Platform) => {
+            if(platform.requiredLogin === "in")
+                platform.valid = true
+            return platform
+        }))
+    }
+
     let isPostPlanned = false;
-    // let plannedDate: string | undefined = undefined;
-    let selectAll = $platformList.every(platform => platform.checked);
+    let selectAll = $platformList.filter(platform => platform.valid).every(platform => platform.checked);
 
     $: if(selectAll) {
         platformList.set($platformList.map(platform => { 
-            platform.checked = true
+            if(platform.valid)
+                platform.checked = true
             return platform
         }))
     }
@@ -26,6 +43,8 @@
     $: if(!isPostPlanned) {
         $plannedDate = undefined
     }
+
+    // $: console.log($platformList)
 
     // $: if($plannedDate) {
     //     console.log(Date.parse($plannedDate))
@@ -44,7 +63,7 @@
             <span>Zaznacz wszystkie</span>
         </label>
         {#each $platformList as platform, i}
-            {#if (!fbUser && platform.requiredLogin === "fb") || (!inUser && platform.requiredLogin === "in")}
+            {#if !platform.valid}
                 <span class="flex items-center space-x-2 brightness-75 dark:brightness-50 line-through">
                     <span>{platform.text}</span>
                     <div use:popup={questionSettings}>

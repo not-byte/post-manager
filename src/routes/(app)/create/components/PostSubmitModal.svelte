@@ -7,24 +7,12 @@
     import InLogo from "~icons/logos/linkedin-icon";
     import Loader from "~icons/ph/spinner-gap-bold"
     
-    const platforms = [
-        {
-            name: "Facebook",
-            logo: FbLogo
-        },
-        {
-            name: "Instagram",
-            logo: IgLogo
-        },
-        {
-            name: "LinkedIn",
-            logo: InLogo
-        },
-        {
-            name: "Strona",
-            logo: NotByteLogo
-        }
-    ]
+    const logos: Record<string, any> = {
+        "Facebook": FbLogo,
+        "Instagram": IgLogo,
+        "LinkedIn": InLogo,
+        "Strona": NotByteLogo
+    }
 
     const completePost = {
         ...$post,
@@ -33,8 +21,16 @@
         plannedDate: $plannedDate ? Date.parse($plannedDate) : undefined
     }
 
-    onMount(() => {
-        console.log("mounted", completePost)
+    onMount(async () => {
+        // console.log("mounted", completePost)
+        const res = await fetch("/publish", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(completePost)
+        })
+        // console.log("response", res)
     })
 </script>
 
@@ -43,14 +39,14 @@
         <h3 class="h2 text-center">Publikowanie postów</h3>
     </section>
     <section class="pr-4 py-2 pl-12">
-        {#each platforms as platform}
+        {#each $platformList.filter(x => x.checked) as platform}
             <div class="flex items-center gap-4 my-4">
-                {#if platform.name === "Strona"}
+                {#if platform.text === "Strona"}
                     <NotByteLogo className="size-10" />
                 {:else}
-                    <svelte:component this={platform.logo} class="size-10 [&_*:first-child]:!fill-black dark:[&_*:first-child]:!fill-white { platform.name === "Facebook" ? '[&_*:last-child]:!fill-transparent' : '' }" />
+                    <svelte:component this={logos[platform.text]} class="size-10 [&_*:first-child]:!fill-black dark:[&_*:first-child]:!fill-white { platform.text === "Facebook" ? '[&_*:last-child]:!fill-transparent' : '' }" />
                 {/if}
-                <h5 class="h3 text-center">{platform.name}</h5>
+                <h5 class="h3 text-center">{platform.text}</h5>
                 <Loader class="size-4 animate-spin" />
             </div>
         {/each}

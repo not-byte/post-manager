@@ -1,4 +1,5 @@
 import { FB_APP_SECRET } from "$env/static/private"
+import type { Post, FbPost } from "$types/post"
 
 class FB {
     clientId: string
@@ -45,6 +46,26 @@ class FB {
         const data = await response.json()
         this.cachedUserData = data
         // console.log(data)
+        return data
+    }
+
+    async createPost(accessToken: string, post: Post) {
+        let fbPost: FbPost = {
+            message: post.body,
+            published: !post.scheduledAt
+        }
+
+        if(!!post.scheduledAt)
+            fbPost.scheduled_publish_time = Date.parse(post.scheduledAt)
+
+        const response = await fetch(`https://graph.facebook.com/v19.0/${this.pageId}/feed?access_token=${accessToken}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(fbPost)
+        })
+        const data = await response.json()
         return data
     }
 }

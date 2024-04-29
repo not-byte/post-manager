@@ -103,7 +103,7 @@
     }
 
     function removeImage() {
-        if($image)
+        if($image && $image.file)
             window.URL.revokeObjectURL($image.url)
         image.set(undefined)
     }
@@ -123,7 +123,7 @@
         <textarea id="post-body-input" bind:this={postBodyInput} class="textarea transition-none variant-ringed-surface !ring-0 min-h-40 px-4 py-2 !border-0" bind:value={$post.body} on:input={processInput}></textarea>
         {#if $image}
             <div class="p-2" transition:scaleY={{ duration: 200 }}>
-                <SelectedImage src={$image.url} alt={$image.file.name} on:click={removeImage} />
+                <SelectedImage src={$image.url} alt={$image.file ? $image.file.name : `Image fetched from ${$image.url}`} on:click={removeImage} />
             </div>
         {/if}
         <div class="shadow-[0_0_4px_0_rgba(0,0,0,.1)] grid grid-cols-[1fr_auto] pb-px px-px">
@@ -137,7 +137,7 @@
                     </button>
                 </div>
             </div>
-            <span class="text-xs lg:text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").length}</span>
+            <span class="text-xs lg:text-sm flex justify-center items-end p-1 px-2">Ilość znaków: {$post.body.replaceAll('\n', "").replaceAll(/\p{Extended_Pictographic}/gu, "x").length}</span>
         </div>
     </div>
     <div class="flex justify-center lg:justify-start gap-3">
@@ -161,7 +161,7 @@
         <div class="variant-ringed-surface ring-grey-light dark:!ring-grey-darker overflow-x-auto h-full min-h-40 max-w-full px-4 py-2">
             <div bind:this={preview}></div>
             {#if $image}
-                <img src={$image.url} alt={$image.file.name} class="w-52 my-2">
+                <img src={$image.url} alt={$image.file ? $image.file.name : `Image fetched from ${$image.url}`} class="w-52 my-2">
             {/if}
         </div>
     </div>

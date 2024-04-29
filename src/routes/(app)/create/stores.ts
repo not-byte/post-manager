@@ -5,7 +5,8 @@ import { writable, type Writable } from "svelte/store";
 export interface Platform {
     text: string,
     checked: boolean,
-    requiredLogin: "fb" | "in" | null
+    requiredLogin: "fb" | "in" | null,
+    valid: boolean
 }
 
 export interface Post {
@@ -14,7 +15,7 @@ export interface Post {
 }
 
 export interface ImageObject {
-    file: File,
+    file: File | undefined,
     url: string
 }
 
@@ -25,26 +26,30 @@ export const post = writable({
     body: ""
 })
 
-export const platformList = writable([
+export const platformList: Writable<Platform[]> = writable([
     {
         text: "Facebook",
-        checked: true,
-        requiredLogin: "fb"
+        checked: false,
+        requiredLogin: "fb",
+        valid: false
     },
     {
         text: "Instagram",
-        checked: true,
-        requiredLogin: "fb"
+        checked: false,
+        requiredLogin: "fb",
+        valid: false
     },
     {
         text: "LinkedIn",
-        checked: true,
-        requiredLogin: "in"
+        checked: false,
+        requiredLogin: "in",
+        valid: false
     },
     {
         text: "Strona",
         checked: true,
-        requiredLogin: null
+        requiredLogin: null,
+        valid: true
     },
 ])
 
