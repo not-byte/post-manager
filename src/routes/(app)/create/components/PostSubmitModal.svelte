@@ -1,12 +1,26 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { EventSourcePolyfill } from "event-source-polyfill";
     import { post, platformList, image, plannedDate } from "../stores";
     import NotByteLogo from "$lib/components/Logo.svelte";
     import FbLogo from "~icons/logos/facebook";
     import IgLogo from "~icons/logos/instagram-icon";
     import InLogo from "~icons/logos/linkedin-icon";
     import Loader from "~icons/ph/spinner-gap-bold"
-    
+
+    let sse = new EventSourcePolyfill("/publish", {
+        heartbeatTimeout: 100,
+    })
+
+    let count = 0
+
+    sse.onmessage = (event) => {
+        console.log("message", JSON.parse(event.data))
+        count++
+        if(count == 5)
+            sse.close()
+    }
+
     const logos: Record<string, any> = {
         "Facebook": FbLogo,
         "Instagram": IgLogo,

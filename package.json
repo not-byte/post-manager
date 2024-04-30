@@ -35,6 +35,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@floating-ui/dom": "1.6.3"
+    "@floating-ui/dom": "1.6.3",
+    "@types/event-source-polyfill": "^1.0.5",
+    "event-source-polyfill": "^1.0.31"
   }
 }
