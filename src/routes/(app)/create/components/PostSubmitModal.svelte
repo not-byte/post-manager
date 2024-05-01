@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
     import { EventSourcePolyfill } from "event-source-polyfill";
     import { post, platformList, image, plannedDate } from "../stores";
     import NotByteLogo from "$lib/components/Logo.svelte";
@@ -8,17 +8,14 @@
     import InLogo from "~icons/logos/linkedin-icon";
     import Loader from "~icons/ph/spinner-gap-bold"
 
-    let sse = new EventSourcePolyfill("/publish", {
-        heartbeatTimeout: 100,
-    })
-
-    let count = 0
+    let sse = new EventSourcePolyfill("/publish")
 
     sse.onmessage = (event) => {
-        console.log("message", JSON.parse(event.data))
-        count++
-        if(count == 5)
-            sse.close()
+        console.log("Update received:", JSON.parse(event.data))
+    }
+
+    sse.onerror = (event) => {
+        console.log("error", event)
     }
 
     const logos: Record<string, any> = {
@@ -45,6 +42,10 @@
             body: JSON.stringify(completePost)
         })
         // console.log("response", res)
+    })
+
+    onDestroy(() => {
+        sse.close()
     })
 </script>
 

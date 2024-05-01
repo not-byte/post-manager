@@ -49,6 +49,17 @@ class FB {
         return data
     }
 
+    async uploadImage(accessToken: string, imageUrl: string, isScheduled: boolean = false) {
+        return new Promise((resolve, reject) => {
+            fetch(`https://graph.facebook.com/v19.0/${this.pageId}/photos?url=${imageUrl}&published=false${isScheduled ? '&temporary=true' : ''}&access_token=${accessToken}`, {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(err => reject(err))
+        })
+    }
+
     async createPost(accessToken: string, post: Post) {
         let fbPost: FbPost = {
             message: post.body,

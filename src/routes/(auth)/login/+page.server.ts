@@ -39,7 +39,8 @@ export const actions = {
         }
     },
     logout: async({ cookies }) => {
-        cookies.set("authToken", "", { httpOnly: true, maxAge: 0, path: "/", secure: false })
+        cookies.delete("authToken", { path: "/" })
+        cookies.delete("fbToken", { path: "/" })
         throw redirect(302, "/login")
     }
 }
